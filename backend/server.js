@@ -17,7 +17,7 @@ connectDB();
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? ['https://your-frontend-domain.com', 'https://www.your-frontend-domain.com']
-    : 'http://localhost:3000',
+    : ['http://localhost:3000', 'http://localhost:4200'],
   credentials: true
 }));
 app.use(express.json());
