@@ -1,0 +1,70 @@
+<div class="product-detail-container">
+  <button (click)="goBack()" class="btn-back">← Back to Products</button>
+
+  <ng-container *ngIf="loading">
+    <div class="loading">Loading product details...</div>
+  </ng-container>
+
+  <ng-container *ngIf="!loading && errorMessage">
+    <div class="error">{{ errorMessage }}</div>
+  </ng-container>
+
+  <ng-container *ngIf="!loading && product">
+    <div class="product-detail">
+      <div class="product-image-section">
+        <img [src]="product.image || 'https://via.placeholder.com/400'" 
+             alt="{{ product.name }}"
+             class="product-image">
+      </div>
+
+      <div class="product-details-section">
+        <h1>{{ product.name }}</h1>
+        
+        <div class="product-meta">
+          <span class="category">{{ product.category | titlecase }}</span>
+          <span class="rating" *ngIf="product.rating > 0">
+            ⭐ {{ product.rating }}/5 ({{ product.reviews }} reviews)
+          </span>
+        </div>
+
+        <div class="farmer-info">
+          <strong>Farmer:</strong> {{ product.farmerName }}
+        </div>
+
+        <p class="description">{{ product.description }}</p>
+
+        <div class="product-tags" *ngIf="product.tags && product.tags.length">
+          <span class="tag" *ngFor="let tag of product.tags">{{ tag }}</span>
+        </div>
+
+        <div class="pricing-section">
+          <div class="price">₹{{ product.price }}</div>
+          <div class="stock" [ngClass]="{ 'out-of-stock': product.stock === 0 }">
+            {{ product.stock > 0 ? 'In Stock: ' + product.stock : 'Out of Stock' }}
+          </div>
+        </div>
+
+        <div class="quantity-section" *ngIf="product.stock > 0">
+          <label>Quantity:</label>
+          <div class="quantity-controls">
+            <button (click)="decreaseQuantity()" class="btn-qty">−</button>
+            <input type="number" [(ngModel)]="quantity" readonly class="qty-input">
+            <button (click)="increaseQuantity()" class="btn-qty">+</button>
+          </div>
+        </div>
+
+        <div class="total-price" *ngIf="product.stock > 0">
+          <strong>Total: ₹{{ product.price * quantity }}</strong>
+        </div>
+
+        <button 
+          (click)="addToCart()" 
+          [disabled]="product.stock === 0"
+          class="btn btn-primary btn-large"
+        >
+          {{ product.stock > 0 ? 'Add to Cart' : 'Out of Stock' }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,86 @@
+<div class="product-form-container">
+  <h2>{{ isEditMode ? 'Edit Product' : 'Add New Product' }}</h2>
+
+  <form class="product-form">
+    <div class="form-group">
+      <label>Product Name: *</label>
+      <input 
+        type="text" 
+        [(ngModel)]="product.name"
+        name="name"
+        placeholder="E.g., Organic Turmeric Powder"
+      >
+    </div>
+
+    <div class="form-group">
+      <label>Description: *</label>
+      <textarea 
+        [(ngModel)]="product.description"
+        name="description"
+        rows="4"
+        placeholder="Detailed product description"
+      ></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Price (₹): *</label>
+        <input 
+          type="number" 
+          [(ngModel)]="product.price"
+          name="price"
+          placeholder="0.00"
+          step="0.01"
+          min="0"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Stock Quantity: *</label>
+        <input 
+          type="number" 
+          [(ngModel)]="product.stock"
+          name="stock"
+          placeholder="0"
+          min="0"
+        >
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Category: *</label>
+      <select [(ngModel)]="product.category" name="category">
+        <option *ngFor="let cat of categories" [value]="cat">
+          {{ cat | titlecase }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Tags (comma-separated):</label>
+      <input 
+        type="text" 
+        [(ngModel)]="product.tags"
+        name="tags"
+        placeholder="E.g., organic, certified, natural"
+      >
+    </div>
+
+    <ng-container *ngIf="errorMessage">
+      <div class="error-message">{{ errorMessage }}</div>
+    </ng-container>
+
+    <ng-container *ngIf="successMessage">
+      <div class="success-message">{{ successMessage }}</div>
+    </ng-container>
+
+    <button 
+      type="button"
+      (click)="saveProduct()"
+      [disabled]="loading"
+      class="btn btn-primary btn-large"
+    >
+      {{ loading ? 'Saving...' : (isEditMode ? 'Update Product' : 'Add Product') }}
+    </button>
+  </form>
+</div>

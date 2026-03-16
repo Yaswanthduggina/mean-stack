@@ -1,0 +1,40 @@
+.gitignore for Angular frontend
+# Angular
+node_modules/
+dist/
+.angular/
+build/
+
+# Environment files
+.env
+.env.local
+.env.prod
+
+# Dependencies
+package-lock.json
+yarn.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build artifacts
+.cache/
+coverage/
+tmp/
+temp/
+
+# Testing
+karma-coverage/
+
+# Misc
+.env.production.local
+Thumbs.db

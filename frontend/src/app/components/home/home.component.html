@@ -1,0 +1,52 @@
+<div class="home-container">
+  <nav class="navbar">
+    <h1>🌿 Pharma Marketplace</h1>
+    <div class="nav-links">
+      <button (click)="navigateTo('/products')" class="btn btn-link">Browse Products</button>
+      <ng-container *ngIf="!isLoggedIn">
+        <button (click)="navigateTo('/login')" class="btn btn-link">Login</button>
+        <button (click)="navigateTo('/register')" class="btn btn-link">Register</button>
+      </ng-container>
+      <ng-container *ngIf="isLoggedIn">
+        <button (click)="navigateTo('/cart')" class="btn btn-link">🛒 Cart</button>
+        <ng-container *ngIf="userRole === 'farmer'">
+          <button (click)="navigateTo('/farmers/dashboard')" class="btn btn-link">Dashboard</button>
+        </ng-container>
+        <button (click)="logout()" class="btn btn-link">Logout</button>
+      </ng-container>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h2>Welcome to Pharma Marketplace</h2>
+    <p>Connecting farmers directly with customers for authentic herbal medicines and organic supplements</p>
+    <div class="hero-buttons">
+      <button (click)="navigateTo('/products')" class="btn btn-primary">Shop Now</button>
+      <ng-container *ngIf="!isLoggedIn">
+        <button (click)="navigateTo('/register')" class="btn btn-secondary">Start Selling</button>
+      </ng-container>
+      <ng-container *ngIf="userRole === 'farmer'">
+        <button (click)="navigateTo('/farmers/dashboard')" class="btn btn-secondary">Manage Products</button>
+      </ng-container>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="feature">
+      <h3>🌱 Organic Products</h3>
+      <p>100% natural and organic pharma products from certified farmers</p>
+    </div>
+    <div class="feature">
+      <h3>💰 Fair Prices</h3>
+      <p>Direct from farmers - no middlemen, best prices guaranteed</p>
+    </div>
+    <div class="feature">
+      <h3>🚚 Fast Delivery</h3>
+      <p>Quick and safe delivery to your doorstep</p>
+    </div>
+    <div class="feature">
+      <h3>✅ Verified Quality</h3>
+      <p>All products verified and quality assured</p>
+    </div>
+  </section>
+</div>

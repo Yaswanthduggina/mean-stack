@@ -1,0 +1,131 @@
+<div class="dashboard-container">
+  <h2>Farmer Dashboard</h2>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-value">{{ getTotalProducts() }}</div>
+      <div class="stat-label">Active Products</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ getTotalOrders() }}</div>
+      <div class="stat-label">Orders</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button 
+      [class.active]="activeTab === 'products'"
+      (click)="switchTab('products')"
+      class="tab-button"
+    >
+      📦 My Products
+    </button>
+    <button 
+      [class.active]="activeTab === 'orders'"
+      (click)="switchTab('orders')"
+      class="tab-button"
+    >
+      🛒 Orders
+    </button>
+  </div>
+
+  <ng-container *ngIf="errorMessage">
+    <div class="error-message">{{ errorMessage }}</div>
+  </ng-container>
+
+  <!-- Products Tab -->
+  <ng-container *ngIf="activeTab === 'products'">
+    <div class="tab-content">
+      <button (click)="addProduct()" class="btn btn-primary">+ Add New Product</button>
+
+      <div class="products-section" *ngIf="!loading">
+        <ng-container *ngIf="products.length > 0">
+          <table class="products-table">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of products">
+                <td>{{ product.name }}</td>
+                <td>{{ product.category | titlecase }}</td>
+                <td>₹{{ product.price }}</td>
+                <td>{{ product.stock }}</td>
+                <td>
+                  <button (click)="editProduct(product._id)" class="btn btn-sm btn-edit">Edit</button>
+                  <button (click)="deleteProduct(product._id)" class="btn btn-sm btn-danger">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+
+        <ng-container *ngIf="products.length === 0">
+          <div class="no-data">
+            <p>No products yet. Start by adding your first product!</p>
+            <button (click)="addProduct()" class="btn btn-primary">Add Product</button>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="loading" *ngIf="loading">Loading products...</div>
+    </div>
+  </ng-container>
+
+  <!-- Orders Tab -->
+  <ng-container *ngIf="activeTab === 'orders'">
+    <div class="tab-content">
+      <div class="orders-section" *ngIf="!loading">
+        <ng-container *ngIf="orders.length > 0">
+          <div class="order-card" *ngFor="let order of orders">
+            <div class="order-header">
+              <div>
+                <strong>Order ID:</strong> {{ order._id }}
+              </div>
+              <div>
+                <strong>Status:</strong>
+                <select 
+                  [value]="order.status"
+                  (change)="updateOrderStatus(order._id, $any($event.target).value)"
+                  class="status-select"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="delivered">Delivered</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="order-details">
+              <strong>Products:</strong>
+              <ul>
+                <li *ngFor="let product of order.products">
+                  {{ product.productName }} x{{ product.quantity }} @ ₹{{ product.price }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="order-footer">
+              <span><strong>Total:</strong> ₹{{ order.totalPrice }}</span>
+              <span><strong>Customer:</strong> {{ order.customerId?.name }}</span>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="orders.length === 0">
+          <div class="no-data">
+            <p>No orders yet. Your products will appear here when customers order them.</p>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="loading" *ngIf="loading">Loading orders...</div>
+    </div>
+  </ng-container>
+</div>

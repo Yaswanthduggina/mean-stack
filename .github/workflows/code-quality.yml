@@ -1,0 +1,57 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Install backend dependencies
+      run: |
+        cd backend
+        npm ci
+    
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm ci
+    
+    - name: Check backend code style
+      run: |
+        cd backend
+        npm run lint || true
+    
+    - name: Check frontend code style
+      run: |
+        cd frontend
+        ng lint || true
+    
+    - name: SAST with Snyk (Backend)
+      uses: snyk/actions/node@master
+      with:
+        directory: backend
+        args: --severity-threshold=high
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      continue-on-error: true
+    
+    - name: SAST with Snyk (Frontend)
+      uses: snyk/actions/node@master
+      with:
+        directory: frontend
+        args: --severity-threshold=high
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      continue-on-error: true

@@ -1,0 +1,21 @@
+.gitignore content for Node.js backend
+node_modules/
+npm-debug.log
+.env
+.env.local
+.DS_Store
+dist/
+build/
+coverage/
+.vscode/
+.idea/
+*.log
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.jar
+*.class
+.eslintignore

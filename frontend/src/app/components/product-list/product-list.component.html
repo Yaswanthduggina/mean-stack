@@ -1,0 +1,63 @@
+<div class="product-list-container">
+  <h2>Pharma Products</h2>
+
+  <div class="filters">
+    <input 
+      type="text" 
+      [(ngModel)]="searchTerm"
+      (keyup)="onSearchChange()"
+      placeholder="Search products..."
+      class="search-box"
+    >
+
+    <select [(ngModel)]="selectedCategory" (change)="onCategoryChange()" class="category-filter">
+      <option value="">All Categories</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat | titlecase }}</option>
+    </select>
+  </div>
+
+  <ng-container *ngIf="loading">
+    <div class="loading">Loading products...</div>
+  </ng-container>
+
+  <ng-container *ngIf="!loading && errorMessage">
+    <div class="error">{{ errorMessage }}</div>
+  </ng-container>
+
+  <div class="products-grid" *ngIf="!loading && filteredProducts.length > 0">
+    <div class="product-card" *ngFor="let product of filteredProducts">
+      <div class="product-image">
+        <img [src]="product.image || 'https://via.placeholder.com/200'" alt="{{ product.name }}">
+      </div>
+      <div class="product-info">
+        <h3>{{ product.name }}</h3>
+        <p class="product-category">{{ product.category | titlecase }}</p>
+        <p class="product-description">{{ product.description | slice:0:100 }}...</p>
+        <div class="product-footer">
+          <div class="price">₹{{ product.price }}</div>
+          <div class="rating" *ngIf="product.rating > 0">
+            ⭐ {{ product.rating }}/5
+          </div>
+        </div>
+        <div class="product-stock">
+          <span *ngIf="product.stock > 0" class="in-stock">In Stock ({{ product.stock }})</span>
+          <span *ngIf="product.stock === 0" class="out-of-stock">Out of Stock</span>
+        </div>
+        <div class="product-actions">
+          <button (click)="viewDetails(product._id)" class="btn btn-outline">Details</button>
+          <button 
+            (click)="addToCart(product)"
+            [disabled]="product.stock === 0"
+            class="btn btn-primary"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-products" *ngIf="!loading && filteredProducts.length === 0">
+    <p>No products found. Try different search or filters.</p>
+  </div>
+</div>
