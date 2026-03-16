@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = 'https://pharma-backend-fdfh.onrender.com/api/orders';
+  private apiUrl = 'http://localhost:5000/api/orders';
 
   constructor(private http: HttpClient) { }
 

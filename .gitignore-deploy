@@ -1,0 +1,11 @@
+# Root directory
+/backend/
+!/backend/node_modules/
+
+# Exclude frontend completely
+/frontend/
+
+# Other files
+*.pdf
+*.md
+docker-compose.yml
