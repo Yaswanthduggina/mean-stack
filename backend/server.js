@@ -11,7 +11,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const app = express();
 
 // Connect to MongoDB
-// connectDB();
+connectDB();
 
 // Middleware
 app.use(cors());
