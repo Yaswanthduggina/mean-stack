@@ -15,9 +15,12 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-frontend-domain.com', 'https://www.your-frontend-domain.com']
-    : ['http://localhost:3000', 'http://localhost:4200'],
+  origin: [
+    'http://localhost:3000', 
+    'http://localhost:4200',
+    'https://your-frontend-domain.com', 
+    'https://www.your-frontend-domain.com'
+  ],
   credentials: true
 }));
 app.use(express.json());
